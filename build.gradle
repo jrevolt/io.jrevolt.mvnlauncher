@@ -15,12 +15,12 @@ apply plugin: 'maven'
 apply plugin: 'spring-boot'
 
 ext {
-	branch = 'git rev-parse --abbrev-ref HEAD'.execute().in.text.trim()
+	branch = "$git rev-parse --abbrev-ref HEAD".execute().in.text.trim()
 	branchShort = branch.replaceFirst(".*/", "")
-	commit = 'git rev-parse HEAD'.execute().in.text.trim()
+	commit = "$git rev-parse HEAD".execute().in.text.trim()
 	commitShort = commit.substring(0, 7)
 	tag = branch.matches("master") ? 'git describe --tags --exact-match'.execute().in.text.trim() : null
-	gitDescribe = 'git describe --tags --always --long'.execute().in.text.trim()
+	gitDescribe = "$git describe --tags --always --long".execute().in.text.trim()
 	snapshotVersion = "${branchShort}-SNAPSHOT"
 	releaseVersion = tag ? "${tag}-${commitShort}" : null
 	deploymentRepositoryName = releaseVersion ? "releases" : "snapshots"
