@@ -18,7 +18,7 @@ public class Main {
 	// SpringBoot MvnLauncher callback
 	static public String[] premain(String[] args) {
 		String artifact = (args.length > 0) ? args[0] : null;
-		if (artifact == null || !artifact.matches("[^:]+:[^:]+:[^:]+")) {
+		if (artifact == null || !artifact.matches("[^:]+(:[^:]+){2,5}")) {
 			throw new RuntimeException("Undefined or invalid main artifact. First parameter must specify Maven artifact URI ({groupId}:{artifactId}:{version})");
 		}
 
