@@ -1,4 +1,4 @@
-package org.jrevolt.run;
+package io.jrevolt.mvnlauncher;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;

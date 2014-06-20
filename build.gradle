@@ -1,17 +1,9 @@
 buildscript {
 	ext {
-		springBootVersion = '1.1.0.BUILD-SNAPSHOT'
+		springBootVersion = '1.1.2.BUILD-SNAPSHOT'
 	}
 	repositories {
-		mavenLocal()
-		maven { url "https://gubuntu.greenhorn.sk/nexus/content/groups/public/";
-			credentials { username="$gubuntuNexusUser"; password="$gubuntuNexusPassword"; }
-		}
-//		maven { url "https://nexus.greenhorn.sk/content/groups/public/" }
-//		maven { url "http://repo.spring.io/snapshot" }
-//		maven { url "http://repo.spring.io/milestone" }
-//		maven { url "http://repo.spring.io/release" }
-		mavenCentral()
+		maven { url "$nexusUrl/content/groups/public"; credentials { username="$nexusUser"; password="$nexusPassword"; }}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -31,39 +23,32 @@ ext {
 	gitDescribe = 'git describe --tags --always --long'.execute().in.text.trim()
 	snapshotVersion = "${branchShort}-SNAPSHOT"
 	releaseVersion = tag ? "${tag}-${commitShort}" : null
+	deploymentRepositoryName = releaseVersion ? "releases" : "snapshots"
 }
 
-group = "org.jrevolt"
+group = "$rootProject.name"
 version = "${releaseVersion ?: snapshotVersion}"
 
 sourceCompatibility = 1.7
 
 springBoot {
-	mainClass = "org.jrevolt.run.Main"
+	mainClass = "io.jrevolt.mvnlauncher.Main"
 	layout = "MAVEN"
 }
 
 dependencies {
-    testCompile("junit:junit:4.11")
+	testCompile("junit:junit:4.11")
 }
 
 repositories {
-	mavenLocal()
-	maven { url "https://gubuntu.greenhorn.sk/nexus/content/groups/public/";
-		credentials { username="$gubuntuNexusUser"; password="$gubuntuNexusPassword"; }
-	}
-//	maven { url "https://nexus.greenhorn.sk/content/groups/public/" }
-//		maven { url "http://repo.spring.io/snapshot" }
-//		maven { url "http://repo.spring.io/milestone" }
-//		maven { url "http://repo.spring.io/release" }
-	mavenCentral()
+	maven { url "$nexusUrl/content/groups/public"; credentials { username="$nexusUser"; password="$nexusPassword"; }}
 }
 
 uploadArchives {
 	repositories {
 		mavenDeployer {
-			repository(url: "https://gubuntu.greenhorn.sk/nexus/content/repositories/snapshots") {
-				authentication(userName: "$gubuntuNexusUser", password: "$gubuntuNexusPassword")
+			repository(url: "$nexusUrl/content/repositories/$deploymentRepositoryName") {
+				authentication(userName: "$nexusUser", password: "$nexusPassword")
 			}
 		}
 	}
