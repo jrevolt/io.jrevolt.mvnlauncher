@@ -4,7 +4,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
@@ -16,5 +16,9 @@ hs_err_pid*
 
 # GRADLE
 /.gradle
-/build
+/build/*.xml
+/build/classes
+/build/libs/*.original
+/build/poms
+/build/tmp
 /gradle.properties
