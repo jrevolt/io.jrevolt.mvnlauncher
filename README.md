@@ -1,5 +1,5 @@
 io.jrevolt.mvnlauncher
-===============
+======================
 
 Runs the application directly from Maven repository.
 
@@ -16,6 +16,10 @@ Features
 - run from local repo
 - optional SHA1 verification
 
+Requirements
+------------
+
+Main artifact's manifest must define `Spring-Boot-Dependencies` attribute which lists all runtime-scope artifacts to be included on classpath.
 
 Usage
 -----
@@ -29,14 +33,29 @@ Configuration
 -------------
 
  1. System properties
- 2. ~/.springboot/defaults.properties
- 
-See example below, plus the configuration class for more details: 
-[MvnLauncherCfg](https://github.com/patrikbeno/spring-boot/blob/MvnLauncher/spring-boot-tools/spring-boot-loader/src/main/java/org/springframework/boot/loader/MvnLauncherCfg.java) 
+ 2. ~/.springboot/defaults.properties (or file defined by `-DMvnLauncher.defaults`)
+ 3. Built-in defaults
 
-| Property | Default | Description |
+See example below, plus the configuration class for more details: [MvnLauncherCfg](https://github.com/patrikbeno/spring-boot/blob/MvnLauncher/spring-boot-tools/spring-boot-loader/src/main/java/org/springframework/boot/loader/MvnLauncherCfg.java) 
+
+| Property | Description | Default |
 |----------|---------|-------------|
-| MvnLauncher.defaults | ~/.springboot/defaults.properties | User-specific defaults overriding built-in defaults |
+| `MvnLauncher.defaults` | User-specific defaults overriding built-in defaults | `~/.springboot/defaults.properties` | 
+| `MvnLauncher.debug` | Enables debug output of MvnLauncher's operations | `false` |
+| `MvnLauncher.cache` | MvnLauncher's cache directory | `file://${user.home}/.springboot/cache` |
+| `MvnLauncher.offline` | Disables all online operations. Artifacts must be cached locally to be resolved. | `false` | 
+| `MvnLauncher.showClasspath` | Show final classpath used to configure the classloader. Actual file system URLs are show in the same order as passed to classloader. | `false` |
+| `MvnLauncher.verify` | Enable download verification using the repository-provided SHA1 hash | `true` |
+| `MvnLauncher.noCache` | Bypass MvnLauncher's cache: always download latest version from remote repository. | `false` |
+| `MvnLauncher.failOnError` | Fail when any of the required artifacts is invalid or unresolved. This can be disabled if some optional artifacts keeps failing but its absence does not actually affect the application. | `true` |
+| `MvnLauncher.cacheFileProtocol` | If set, MvnLauncher will download and cache also `file://` repositories. By default such URLs are not used directly to populate classloader but in some cases caching may be enabled to avoid the filesystem conflicts.  | `false` |
+| `MvnLauncher.updateReleases` | By default, release artifacts are cached forever and never checked for updates. In some cases, overriding this may be useful. | `false` |
+| `MvnLauncher.updateSnapshots` | Snapshot artifacts are always checked for updates. This may be disabled to speed-up application startup if snapshots are known to be up-to-date or if the updates are irrelevant or undesirable. | `true` |
+| `MvnLauncher.repositoryUrl` | Maven repository URL | `file://${user.home}/.m2/repository/`
+| `MvnLauncher.repositoryUsername` | Maven repositry user name |  
+| `MvnLauncher.repositoryPassword` | Maven repository password |
+| `MvnLauncher.cache` | MvnLauncher cache directory | `file://${user.name}/.springboot/cache` |
+| `MvnLauncher.artifact` | Root Maven artifact URI to resolve and execute. If undefined, MvnLauncher uses bootstrap (current) manifest to configure then classloader and resolve the main class. Maven URI uses syntax `groupId:artifactId:version[:packaging[:classifier]]` | `undefined` |
 
 Manifest
 --------
