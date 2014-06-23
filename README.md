@@ -1,7 +1,7 @@
 io.jrevolt.mvnlauncher
 ======================
 
-Runs the application directly from Maven repository.
+Runs the application directly from Maven repository. No giant WARs or "uberjars", no full bundle re-downloads when only single library has been updated. Build-time Maven goodies are now supported by runtime.
 
 Features
 --------
