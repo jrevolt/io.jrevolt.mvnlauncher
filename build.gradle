@@ -33,11 +33,25 @@ sourceCompatibility = 1.7
 
 springBoot {
 	mainClass = "io.jrevolt.mvnlauncher.Main"
+	launcherClass = "io.jrevolt.mvnlauncher.Main"
 	layout = "MAVEN"
+//	customConfiguration = "runtime"
+	backupSource = false
+}
+
+buildDir = "${rootProject.projectDir}/.build/${project.name}"
+sourceSets {
+	main { [java, resources]*.srcDir 'src/main/java'; }
+	test { [java, resources]*.srcDir 'src/test/java'; }
 }
 
 dependencies {
+	compile("org.springframework.boot:spring-boot-loader:${springBootVersion}")
 	testCompile("junit:junit:4.11")
+}
+
+jar.doLast {
+	configurations.findAll().each { cfg -> println(cfg.name) }
 }
 
 repositories {
