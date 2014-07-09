@@ -39,7 +39,7 @@ springBoot {
 	backupSource = false
 }
 
-buildDir = "${rootProject.projectDir}/.build/${project.name}"
+//buildDir = "${rootProject.projectDir}/.build/${project.name}"
 sourceSets {
 	main { [java, resources]*.srcDir 'src/main/java'; }
 	test { [java, resources]*.srcDir 'src/test/java'; }
