@@ -18,6 +18,7 @@ hs_err_pid*
 /.gradle
 /build/*.xml
 /build/classes
+/build/resources
 /build/libs/*.original
 /build/poms
 /build/tmp
